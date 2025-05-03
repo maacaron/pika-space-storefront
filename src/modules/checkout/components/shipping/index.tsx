@@ -15,6 +15,8 @@ import ErrorMessage from '@modules/checkout/components/error-message'
 import Divider from '@modules/common/components/divider'
 import MedusaRadio from '@modules/common/components/radio'
 
+import { InPostBox } from './inpost-box'
+import { InPostModal } from './inpost-modal'
 import { InPostPoint } from './types'
 
 const PICKUP_OPTION_ON = '__PICKUP_ON'
@@ -111,7 +113,11 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
   }
 
   const handleSubmit = () => {
-    if (shippingMethodId?.includes('Paczkomat') && !!selectedPackageMachine) {
+    const isShippingMethodAPackageMachine = _shippingMethods?.some(
+      (option) => option.id === shippingMethodId && option.name.includes('Paczkomat')
+    )
+
+    if (isShippingMethodAPackageMachine && !!selectedPackageMachine) {
       router.push(pathname + '?step=payment', { scroll: false })
     } else {
       setError('Proszę wybrać Paczkomat')
@@ -134,10 +140,25 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
       return id
     })
 
-    await setShippingMethod({ cartId: cart.id, shippingMethodId: id })
-      .catch((err) => {
-        setShippingMethodId(currentId)
+    const selectedOption = _shippingMethods?.find((option) => option.id === id)
+    if (selectedOption?.data?.id === 'inpost-fulfillment-parcel' && !selectedPackageMachine) {
+      setIsPackageMachineModalOpen(true)
+    } else {
+      set(id)
+    }
+  }
 
+  useEffect(() => {
+    setError(null)
+  }, [isOpen])
+
+  const set = async (id: string) => {
+    await setShippingMethod({
+      cartId: cart.id,
+      shippingMethodId: id,
+      packageMachine: selectedPackageMachine?.name,
+    })
+      .catch((err) => {
         setError(err.message)
       })
       .finally(() => {
@@ -146,29 +167,10 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
   }
 
   useEffect(() => {
-    setError(null)
-  }, [isOpen])
-
-  // const set = async (id: string) => {
-  //   setIsLoading(true)
-  //   await setShippingMethod({
-  //     cartId: cart.id,
-  //     shippingMethodId: id,
-  //     packageMachine: selectedPackageMachine?.name,
-  //   })
-  //     .catch((err) => {
-  //       setError(err.message)
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false)
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   if (!!selectedPackageMachine) {
-  //     set(selectedShippingMethodId)
-  //   }
-  // }, [selectedPackageMachine])
+    if (!!selectedPackageMachine) {
+      set(shippingMethodId || '')
+    }
+  }, [selectedPackageMachine])
 
   return (
     <div>
@@ -180,7 +182,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
               !isOpen && cart.shipping_methods?.length === 0,
           })}
         >
-          Delivery
+          Dostawa
           {!isOpen && (cart.shipping_methods?.length ?? 0) > 0 && <CheckCircleSolid />}
         </Heading>
         {!isOpen && cart?.shipping_address && cart?.billing_address && cart?.email && (
@@ -190,7 +192,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
               className='text-ui-fg-interactive hover:text-ui-fg-interactive-hover'
               data-testid='edit-delivery-button'
             >
-              Edit
+              Edycja
             </button>
           </Text>
         )}
@@ -199,9 +201,9 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
         <>
           <div className='grid'>
             <div className='flex flex-col'>
-              <span className='font-medium txt-medium text-ui-fg-base'>Shipping method</span>
+              <span className='font-medium txt-medium text-ui-fg-base'>Metoda wysyłki</span>
               <span className='mb-4 text-ui-fg-muted txt-medium'>
-                How would you like you order delivered
+                Jak chciałbyś, aby Twoje zamówienie zostało dostarczone
               </span>
             </div>
             <div data-testid='delivery-options-container'>
@@ -221,9 +223,9 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
                       value={PICKUP_OPTION_ON}
                       data-testid='delivery-option-radio'
                       className={clx(
-                        'flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active',
+                        'flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2',
                         {
-                          'border-ui-border-interactive': showPickupOptions === PICKUP_OPTION_ON,
+                          'border-pika-100': showPickupOptions === PICKUP_OPTION_ON,
                         }
                       )}
                     >
@@ -252,16 +254,27 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
                         data-testid='delivery-option-radio'
                         disabled={isDisabled}
                         className={clx(
-                          'flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:shadow-borders-interactive-with-active',
+                          'flex items-center justify-between text-small-regular cursor-pointer py-4 border rounded-rounded px-8 mb-2 hover:border-pika-100',
                           {
-                            'border-ui-border-interactive': option.id === shippingMethodId,
+                            'border-pika-100': option.id === shippingMethodId,
                             'hover:shadow-brders-none cursor-not-allowed': isDisabled,
                           }
                         )}
                       >
                         <div className='flex items-center gap-x-4'>
                           <MedusaRadio checked={option.id === shippingMethodId} />
-                          <span className='text-base-regular'>{option.name}</span>
+                          <div className='text-base-regular'>
+                            <div>
+                              {option.name}
+                              {option.name.includes('Paczkomat') && <>&reg;</>}
+                            </div>
+                            {option.name.includes('Paczkomat') && (
+                              <InPostBox
+                                pointInfo={selectedPackageMachine}
+                                setIsPackageMachineModalOpen={setIsPackageMachineModalOpen}
+                              />
+                            )}
+                          </div>
                         </div>
                         <span className='justify-self-end text-ui-fg-base'>
                           {option.price_type === 'flat' ? (
@@ -285,6 +298,11 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
                   })}
                 </RadioGroup>
               </div>
+              <InPostModal
+                isOpen={isPackageMachineModalOpen}
+                setIsOpen={setIsPackageMachineModalOpen}
+                setSelectedPackageMachine={setSelectedPackageMachine}
+              />
             </div>
           </div>
 
@@ -346,13 +364,13 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
             <ErrorMessage error={error} data-testid='delivery-option-error-message' />
             <Button
               size='large'
-              className='mt'
+              className='mt bg-pika-100 text-black'
               onClick={handleSubmit}
               isLoading={isLoading}
               disabled={!cart.shipping_methods?.[0]}
               data-testid='submit-delivery-option-button'
             >
-              Continue to payment
+              Przejdź do płatności
             </Button>
           </div>
         </>
@@ -361,7 +379,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
           <div className='text-small-regular'>
             {cart && (cart.shipping_methods?.length ?? 0) > 0 && (
               <div className='flex flex-col w-1/3'>
-                <Text className='txt-medium-plus text-ui-fg-base mb-1'>Method</Text>
+                <Text className='txt-medium-plus text-ui-fg-base mb-1'>Metoda</Text>
                 <Text className='txt-medium text-ui-fg-subtle'>
                   {cart.shipping_methods?.at(-1)?.name}{' '}
                   {convertToLocale({
@@ -369,6 +387,11 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
                     currency_code: cart?.currency_code,
                   })}
                 </Text>
+                <InPostBox
+                  pointInfo={selectedPackageMachine}
+                  setIsPackageMachineModalOpen={setIsPackageMachineModalOpen}
+                  disableChangeButton={true}
+                />
               </div>
             )}
           </div>

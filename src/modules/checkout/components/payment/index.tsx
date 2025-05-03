@@ -170,7 +170,7 @@ const Payment = ({
 
           <Button
             size='large'
-            className='mt-6'
+            className='mt-6 bg-pika-100 text-black'
             onClick={handleSubmit}
             isLoading={isLoading}
             disabled={(isStripe && !cardComplete) || (!selectedPaymentMethod && !paidByGiftcard)}

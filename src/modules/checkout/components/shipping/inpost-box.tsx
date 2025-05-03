@@ -3,9 +3,14 @@ import { InPostPoint, OperatingStatus } from './types'
 interface InPostBoxProps {
   pointInfo?: InPostPoint
   setIsPackageMachineModalOpen?: (isOpen: boolean) => void
+  disableChangeButton?: boolean
 }
 
-export const InPostBox = ({ pointInfo, setIsPackageMachineModalOpen }: InPostBoxProps) => {
+export const InPostBox = ({
+  pointInfo,
+  setIsPackageMachineModalOpen,
+  disableChangeButton = false,
+}: InPostBoxProps) => {
   const clickHandler = () => {
     setIsPackageMachineModalOpen?.(true)
   }
@@ -17,8 +22,8 @@ export const InPostBox = ({ pointInfo, setIsPackageMachineModalOpen }: InPostBox
           pointInfo?.status === OperatingStatus.OPERATING
             ? 'bg-green-700'
             : pointInfo?.status === OperatingStatus.NON_OPERATING
-            ? 'bg-orange-600'
-            : 'bg-red-700'
+              ? 'bg-orange-600'
+              : 'bg-red-700'
         }`}
       ></div>
     )
@@ -38,7 +43,7 @@ export const InPostBox = ({ pointInfo, setIsPackageMachineModalOpen }: InPostBox
           <div className='text-xs'>{pointInfo.location_description}</div>
         </div>
       )}
-      {!!setIsPackageMachineModalOpen && (
+      {!!setIsPackageMachineModalOpen && !disableChangeButton && (
         <button
           className='mt-3 pl-2 pr-2 pt-1 pb-1 border-[3px] border-amber-600'
           type='button'
