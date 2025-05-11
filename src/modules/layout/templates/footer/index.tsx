@@ -7,6 +7,8 @@ import { listCollections } from '@lib/data/collections'
 import LocalizedClientLink from '@modules/common/components/localized-client-link'
 import MedusaCTA from '@modules/layout/components/medusa-cta'
 
+import { Logo } from '../nav/logo'
+
 export default async function Footer() {
   const { collections } = await listCollections({
     fields: '*products',
@@ -20,9 +22,9 @@ export default async function Footer() {
           <div>
             <LocalizedClientLink
               href='/'
-              className='txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase'
+              className='txt-compact-xlarge-plus text-ui-fg-subtle hover:text-pika-100 uppercase'
             >
-              Medusa Store
+              <Logo />
             </LocalizedClientLink>
           </div>
           <div className='text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3'>
@@ -45,7 +47,10 @@ export default async function Footer() {
                     return (
                       <li className='flex flex-col gap-2 text-ui-fg-subtle txt-small' key={c.id}>
                         <LocalizedClientLink
-                          className={clx('hover:text-ui-fg-base', children && 'txt-small-plus')}
+                          className={clx(
+                            'text-blueGray hover:text-pika-100',
+                            children && 'txt-small-plus'
+                          )}
                           href={`/categories/${c.handle}`}
                           data-testid='category-link'
                         >
@@ -57,7 +62,7 @@ export default async function Footer() {
                               children.map((child) => (
                                 <li key={child.id}>
                                   <LocalizedClientLink
-                                    className='hover:text-ui-fg-base'
+                                    className='text-blueGray hover:text-pika-100'
                                     href={`/categories/${child.handle}`}
                                     data-testid='category-link'
                                   >
@@ -84,7 +89,7 @@ export default async function Footer() {
                   {collections?.slice(0, 6).map((c) => (
                     <li key={c.id}>
                       <LocalizedClientLink
-                        className='hover:text-ui-fg-base'
+                        className='hover:text-pika-100'
                         href={`/collections/${c.handle}`}
                       >
                         {c.title}
@@ -98,32 +103,44 @@ export default async function Footer() {
               <span className='txt-small-plus txt-ui-fg-base'>Nasza firma</span>
               <ul className='grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small'>
                 <li>
-                  <LocalizedClientLink className='hover:text-ui-fg-base' href='/regulamin'>
+                  <LocalizedClientLink
+                    className='text-blueGray hover:text-pika-100'
+                    href='/regulamin'
+                  >
                     Regulamin
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink className='hover:text-ui-fg-base' href='/rodo'>
+                  <LocalizedClientLink className='text-blueGray hover:text-pika-100' href='/rodo'>
                     Polityka prywatności
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink className='hover:text-ui-fg-base' href='/ciasteczka'>
+                  <LocalizedClientLink
+                    className='text-blueGray hover:text-pika-100'
+                    href='/ciasteczka'
+                  >
                     Polityka cookies
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink className='hover:text-ui-fg-base' href='/dostawa'>
+                  <LocalizedClientLink
+                    className='text-blueGray hover:text-pika-100'
+                    href='/dostawa'
+                  >
                     Formy i czas dostawy
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink className='hover:text-ui-fg-base' href='/reklamacje'>
+                  <LocalizedClientLink
+                    className='text-blueGray hover:text-pika-100'
+                    href='/reklamacje'
+                  >
                     Reklamacje
                   </LocalizedClientLink>
                 </li>
                 <li>
-                  <LocalizedClientLink className='hover:text-ui-fg-base' href='/zwroty'>
+                  <LocalizedClientLink className='text-blueGray hover:text-pika-100' href='/zwroty'>
                     Zwroty
                   </LocalizedClientLink>
                 </li>
@@ -137,7 +154,7 @@ export default async function Footer() {
                 })}
               >
                 <li>
-                  <a className='flex hover:text-ui-fg-base' href='tel:785075569'>
+                  <a className='flex text-blueGray hover:text-pika-100' href='tel:785075569'>
                     <span className='w-[16px] mr-2'>
                       <PhoneIcon />
                     </span>{' '}
@@ -145,7 +162,10 @@ export default async function Footer() {
                   </a>
                 </li>
                 <li>
-                  <a className='flex hover:text-ui-fg-base' href='mailto:macaron.labs@gmail.com'>
+                  <a
+                    className='flex text-blueGray hover:text-pika-100'
+                    href='mailto:macaron.labs@gmail.com'
+                  >
                     <span className='w-[16px] mr-2'>
                       <AtSymbolIcon />
                     </span>{' '}
@@ -156,7 +176,7 @@ export default async function Footer() {
             </div>
           </div>
         </div>
-        <div className='flex w-full mb-16 justify-between text-ui-fg-muted'>
+        <div className='flex w-full mb-16 justify-between text-blueGray'>
           <MedusaCTA />
         </div>
       </div>
