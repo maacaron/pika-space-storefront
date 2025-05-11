@@ -12,7 +12,6 @@ import { calculatePriceForShippingOption } from '@lib/data/fulfillment'
 import { convertToLocale } from '@lib/util/money'
 
 import ErrorMessage from '@modules/checkout/components/error-message'
-import Divider from '@modules/common/components/divider'
 import MedusaRadio from '@modules/common/components/radio'
 
 import { InPostBox } from './inpost-box'
@@ -364,7 +363,7 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
             <ErrorMessage error={error} data-testid='delivery-option-error-message' />
             <Button
               size='large'
-              className='mt bg-pika-100 text-black'
+              className='mt bg-pika-40 hover:bg-pika-100 text-black'
               onClick={handleSubmit}
               isLoading={isLoading}
               disabled={!cart.shipping_methods?.[0]}
@@ -397,7 +396,6 @@ const Shipping: React.FC<ShippingProps> = ({ cart, availableShippingMethods }) =
           </div>
         </div>
       )}
-      <Divider className='mt-8' />
     </div>
   )
 }

@@ -9,7 +9,6 @@ import { useActionState } from 'react'
 import { setAddresses } from '@lib/data/cart'
 import compareAddresses from '@lib/util/compare-addresses'
 
-import Divider from '@modules/common/components/divider'
 import Spinner from '@modules/common/icons/spinner'
 
 import BillingAddress from '../billing_address'
@@ -81,7 +80,7 @@ const Addresses = ({
               </div>
             )}
             <SubmitButton
-              className='mt-6 bg-pika-100 text-black'
+              className='mt-6 bg-pika-40 hover:bg-pika-100 text-black'
               data-testid='submit-address-button'
             >
               Wybierz metodę dostawy
@@ -155,7 +154,6 @@ const Addresses = ({
           </div>
         </div>
       )}
-      <Divider className='mt-8' />
     </div>
   )
 }

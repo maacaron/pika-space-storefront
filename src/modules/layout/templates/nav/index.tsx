@@ -1,10 +1,11 @@
-import { Suspense } from "react"
+import { UserIcon } from '@heroicons/react/24/outline'
+import { Suspense } from 'react'
 
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { Logo } from "./logo"
-import Search, { SearchSkeleton } from "./search"
-import CartModal from "@modules/cart/components/modal/modal"
-import { UserIcon } from "@heroicons/react/24/outline"
+import CartModal from '@modules/cart/components/modal/modal'
+import LocalizedClientLink from '@modules/common/components/localized-client-link'
+
+import { Logo } from './logo'
+import Search, { SearchSkeleton } from './search'
 
 type Menu = {
   title: string
@@ -18,14 +19,14 @@ export default async function Nav() {
   ]
 
   return (
-    <div className="sticky top-0 inset-x-0 z-50 group bg-neutral-900">
-      <nav className="relative flex items-center justify-between p-4 lg:px-6">
+    <div className='sticky top-0 inset-x-0 z-50 group bg-blueBlack'>
+      <nav className='relative flex items-center justify-between p-4 lg:px-6'>
         <div className='flex w-full items-center'>
           <div className='flex w-full md:w-1/3'>
             <LocalizedClientLink
-              href="/"
-              className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-10"
-              data-testid="nav-store-link"
+              href='/'
+              className='mr-2 flex w-full items-center justify-center md:w-auto lg:mr-10'
+              data-testid='nav-store-link'
             >
               <Logo />
             </LocalizedClientLink>
@@ -53,11 +54,11 @@ export default async function Nav() {
           </div>
           <div className='flex justify-end md:w-1/3'>
             <LocalizedClientLink
-              className="p-3 mr-2 hover:text-pika-100"
-              href="/account"
-              data-testid="nav-account-link"
+              className='p-3 mr-2 hover:text-pika-100'
+              href='/account'
+              data-testid='nav-account-link'
             >
-              <UserIcon className="size-5" />
+              <UserIcon className='size-5' />
             </LocalizedClientLink>
             <CartModal />
           </div>

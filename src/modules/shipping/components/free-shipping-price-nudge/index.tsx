@@ -188,7 +188,7 @@ function FreeShippingPopup({ cart, price }: { cart: StoreCart; price: StoreFreeS
     >
       <div>
         <Button
-          className='rounded-full bg-neutral-900 shadow-none outline-none border-none text-[15px] p-2'
+          className='rounded-full bg-blueBlack shadow-none outline-none border-none text-[15px] p-2'
           onClick={() => setIsClosed(true)}
         >
           <XMark />

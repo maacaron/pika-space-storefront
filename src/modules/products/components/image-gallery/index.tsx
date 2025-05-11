@@ -39,7 +39,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
 
         {images.length > 1 ? (
           <div className='absolute bottom-0 flex w-full justify-center'>
-            <div className='mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur dark:border-black dark:bg-neutral-900/80'>
+            <div className='mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur dark:border-black dark:bg-blueBlack/80'>
               <button
                 formAction={() => {
                   const newState = updateImage(previousImageIndex.toString())
