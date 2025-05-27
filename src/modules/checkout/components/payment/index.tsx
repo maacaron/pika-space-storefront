@@ -27,6 +27,7 @@ const Payment = ({
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [redirectUri, setRedirectUri] = useState('')
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
     activeSession?.provider_id ?? ''
   )
@@ -68,9 +69,19 @@ const Payment = ({
       const checkActiveSession = activeSession?.provider_id === selectedPaymentMethod
 
       if (!checkActiveSession) {
-        await initiatePaymentSession(cart, {
+        const response = await initiatePaymentSession(cart, {
           provider_id: paymentMethod,
+          data: {
+            cart,
+          },
         })
+        setRedirectUri(
+          response?.payment_collection?.payment_sessions?.[0].data?.redirectUri as string
+        )
+        console.log(
+          '🚀 ~ Payment handleSubmit ~ redirectUri:',
+          response.payment_collection.payment_sessions[0].data.redirectUri
+        )
       }
     } catch (err: any) {
       setError(err.message)
@@ -168,6 +179,7 @@ const Payment = ({
             data-testid='submit-order-button'
             disabled={!selectedPaymentMethod && !paidByGiftcard}
             isLoading={isLoading}
+            redirectUri={redirectUri}
           />
 
           <div className='flex items-start gap-x-1 w-full mt-6'>

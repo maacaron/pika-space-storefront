@@ -3,11 +3,13 @@ import React from 'react'
 
 import PayPal from '@modules/common/icons/paypal'
 
+import { PayU } from './payu-logo'
+
 /* Map of payment provider_id to their title and icon. Add in any payment providers you want to use. */
 export const paymentInfoMap: Record<string, { title: string; icon: React.JSX.Element }> = {
-  pp_payu: {
+  pp_payu_payu: {
     title: 'PayU',
-    icon: <PayPal />,
+    icon: <PayU />,
   },
   pp_system_default: {
     title: 'Przelew bankowy',
@@ -16,7 +18,6 @@ export const paymentInfoMap: Record<string, { title: string; icon: React.JSX.Ele
   // Add more payment providers here
 }
 
-// This only checks if it is native stripe for card payments, it ignores the other stripe-based providers
 export const isPayU = (providerId?: string) => {
   return providerId?.startsWith('pp_payu')
 }

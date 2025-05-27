@@ -1,10 +1,11 @@
 'use client'
 
-import { HttpTypes } from '@medusajs/types'
+import { HttpTypes, StoreOrder } from '@medusajs/types'
 import { Button } from '@medusajs/ui'
+import { redirect } from 'next/dist/server/api-utils'
 import React, { useState } from 'react'
 
-import { isManual } from '@lib/constants'
+import { isManual, isPayU } from '@lib/constants'
 import { placeOrder } from '@lib/data/cart'
 
 import ErrorMessage from '../error-message'
@@ -14,6 +15,7 @@ type PaymentButtonProps = {
   'data-testid': string
   disabled: boolean
   isLoading: boolean
+  redirectUri?: string
 }
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({
@@ -21,6 +23,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   'data-testid': dataTestId,
   disabled,
   isLoading,
+  redirectUri = '',
 }) => {
   const notReady =
     !cart ||
@@ -33,24 +36,45 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
 
   switch (true) {
     case isManual(paymentSession?.provider_id):
-      return <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+    case isPayU(paymentSession?.provider_id):
+      return (
+        <CheckoutPaymentButton
+          notReady={notReady}
+          data-testid={dataTestId}
+          redirectUri={redirectUri}
+        />
+      )
     default:
       return <Button disabled={disabled}>Wybierz metodę płatności</Button>
   }
 }
 
-const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
+const CheckoutPaymentButton = ({
+  notReady,
+  redirectUri,
+}: {
+  notReady: boolean
+  redirectUri?: string
+}) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const onPaymentCompleted = async () => {
-    await placeOrder()
+    const order = await placeOrder()
+      .then((response) => {
+        console.log('🚀 ~ .then ~ response:', response)
+
+        // redirectUri && window.location.replace(`${redirectUri}&extOrderId=${response?.display_id}`)
+
+        return response
+      })
       .catch((err) => {
         setErrorMessage(err.message)
       })
       .finally(() => {
         setSubmitting(false)
       })
+    // redirectUri && window.location.replace(`${redirectUri}&extOrderId=${order?.display_id}`)
   }
 
   const handlePayment = () => {

@@ -392,8 +392,8 @@ export async function placeOrder(cartId?: string) {
   }
 
   const cartRes = await sdk.store.cart
-    .complete(id, {}, headers)
-    .then(async (cartRes) => {
+    .complete(id, { fields: '+email' }, headers)
+    .then(async (cartRes: HttpTypes.StoreCompleteCartResponse) => {
       const cartCacheTag = await getCacheTag('carts')
       revalidateTag(cartCacheTag)
       return cartRes
@@ -408,6 +408,7 @@ export async function placeOrder(cartId?: string) {
 
     removeCartId()
     redirect(`/${countryCode}/order/${cartRes?.order.id}/confirmed`)
+    return cartRes.order
   }
 
   return cartRes.cart

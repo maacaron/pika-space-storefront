@@ -47,7 +47,7 @@ export function ProductDescription({ product, region }: ProductTemplateProps) {
 
   return (
     <>
-      <div className='mb-6 flex flex-col border-b pb-6 dark:border-neutral-700'>
+      <div className='mb-6 flex flex-col pb-6'>
         <h1 className='mb-2 text-4xl font-medium'>{product.title}</h1>
         <div className='mt-2'>
           <ProductPrice product={product} variant={selectedVariant} region={region} />
@@ -55,7 +55,7 @@ export function ProductDescription({ product, region }: ProductTemplateProps) {
       </div>
       {product.description ? (
         <Prose
-          className='mb-6 text-sm leading-tight dark:text-white/[70%]'
+          className='mb-6 text-sm leading-tight dark:text-blueGray'
           html={product.description}
         />
       ) : null}

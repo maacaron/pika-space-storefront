@@ -30,7 +30,7 @@ export default async function Footer() {
           <div className='text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3'>
             {productCategories && productCategories?.length > 0 && (
               <div className='flex flex-col gap-y-2'>
-                <span className='txt-small-plus txt-ui-fg-base'>Categories</span>
+                <span className='txt-small-plus txt-ui-fg-base mb-3'>Kategorie</span>
                 <ul className='grid grid-cols-1 gap-2' data-testid='footer-categories'>
                   {productCategories?.slice(0, 6).map((c) => {
                     if (c.parent_category) {
@@ -100,7 +100,7 @@ export default async function Footer() {
               </div>
             )} */}
             <div className='flex flex-col gap-y-2'>
-              <span className='txt-small-plus txt-ui-fg-base'>Nasza firma</span>
+              <span className='txt-small-plus txt-ui-fg-base mb-3'>Nasza firma</span>
               <ul className='grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small'>
                 <li>
                   <LocalizedClientLink
@@ -147,7 +147,7 @@ export default async function Footer() {
               </ul>
             </div>
             <div className='flex flex-col gap-y-2'>
-              <span className='txt-small-plus txt-ui-fg-base'>Dane kontaktowe</span>
+              <span className='txt-small-plus txt-ui-fg-base mb-3'>Dane kontaktowe</span>
               <ul
                 className={clx('grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small', {
                   'grid-cols-2': (collections?.length || 0) > 3,
