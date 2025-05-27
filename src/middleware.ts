@@ -43,7 +43,6 @@ async function getRegionMap(cacheId: string) {
     if (!regions?.length) {
       throw new Error('No regions found. Please set up regions in your Medusa Admin.')
     }
-    console.log('🚀 ~ getRegionMap ~ BACKEND_URL:', BACKEND_URL)
     // Create a map of country codes to regions.
     regions.forEach((region: HttpTypes.StoreRegion) => {
       region.countries?.forEach((c) => {
@@ -68,8 +67,6 @@ async function getCountryCode(
 ) {
   try {
     let countryCode
-    console.log('🚀 ~ countryCode:', countryCode)
-    console.log('🚀 ~ getCountryCode ~ BACKEND_URL:', BACKEND_URL)
 
     const vercelCountryCode = request.headers.get('x-vercel-ip-country')?.toLowerCase()
 
