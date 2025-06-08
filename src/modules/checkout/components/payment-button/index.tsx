@@ -62,10 +62,6 @@ const CheckoutPaymentButton = ({
   const onPaymentCompleted = async () => {
     const order = await placeOrder()
       .then((response) => {
-        console.log('🚀 ~ .then ~ response:', response)
-
-        // redirectUri && window.location.replace(`${redirectUri}&extOrderId=${response?.display_id}`)
-
         return response
       })
       .catch((err) => {
@@ -74,13 +70,13 @@ const CheckoutPaymentButton = ({
       .finally(() => {
         setSubmitting(false)
       })
-    // redirectUri && window.location.replace(`${redirectUri}&extOrderId=${order?.display_id}`)
   }
 
   const handlePayment = () => {
     setSubmitting(true)
+    redirectUri && window.location.replace(redirectUri)
 
-    onPaymentCompleted()
+    // onPaymentCompleted()
   }
 
   return (
