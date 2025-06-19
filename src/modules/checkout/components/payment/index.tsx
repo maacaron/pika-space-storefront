@@ -21,7 +21,6 @@ const Payment = ({
   cart: any
   availablePaymentMethods: any[]
 }) => {
-  console.log('🚀 ~ availablePaymentMethods:', availablePaymentMethods)
   const activeSession = cart.payment_collection?.payment_sessions?.find(
     (paymentSession: any) => paymentSession.status === 'pending'
   )
@@ -78,10 +77,6 @@ const Payment = ({
         })
         setRedirectUri(
           response?.payment_collection?.payment_sessions?.[0].data?.redirectUri as string
-        )
-        console.log(
-          '🚀 ~ Payment handleSubmit ~ redirectUri:',
-          response.payment_collection.payment_sessions[0].data.redirectUri
         )
       }
     } catch (err: any) {

@@ -56,23 +56,25 @@ const PaymentDetails = ({ order }: PaymentDetailsProps) => {
                 </div>
               </div>
             </div>
-            <div className='flex items-start gap-x-1 w-full mt-4'>
-              <div className='flex flex-col w-2/3'>
-                <Text className='txt-medium-plus text-ui-fg-base mb-1'>Numer konta:</Text>
-                <div className='flex gap-2 flex-col txt-medium text-ui-fg-subtle'>
-                  <Text className='text-blueGray' data-testid='payment-amount'>
-                    51 1140 2004 0000 3002 8078 8934 (mBank)
-                  </Text>
-                  <Text className='text-blueGray' data-testid='payment-amount'>
-                    macaron.labs Marcin Kasperski
-                  </Text>
-                  <Text className='text-blueGray' data-testid='payment-amount'>
-                    Proszę dokonać płatności w ciągu 3 dni roboczych. Po tym czasie zamówienie
-                    zostanie anulowane.
-                  </Text>
+            {payment.provider_id === 'pp_system_default' && (
+              <div className='flex items-start gap-x-1 w-full mt-4'>
+                <div className='flex flex-col w-2/3'>
+                  <Text className='txt-medium-plus text-ui-fg-base mb-1'>Numer konta:</Text>
+                  <div className='flex gap-2 flex-col txt-medium text-ui-fg-subtle'>
+                    <Text className='text-blueGray' data-testid='payment-amount'>
+                      51 1140 2004 0000 3002 8078 8934 (mBank)
+                    </Text>
+                    <Text className='text-blueGray' data-testid='payment-amount'>
+                      macaron.labs Marcin Kasperski
+                    </Text>
+                    <Text className='text-blueGray' data-testid='payment-amount'>
+                      Proszę dokonać płatności w ciągu 3 dni roboczych. Po tym czasie zamówienie
+                      zostanie anulowane.
+                    </Text>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </>
         )}
       </div>
