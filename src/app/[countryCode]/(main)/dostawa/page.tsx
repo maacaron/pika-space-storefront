@@ -62,7 +62,7 @@ export default function Dostawa() {
           <li>
             W razie pytań dotyczących dostawy prosimy o kontakt pod adresem e-mail:{' '}
             <strong>macaron.labs@gmail.com</strong> lub telefonicznie pod numerem:{' '}
-            <strong>785 075 569</strong>.
+            <strong>459 116 567</strong>.
           </li>
         </ul>
       </div>

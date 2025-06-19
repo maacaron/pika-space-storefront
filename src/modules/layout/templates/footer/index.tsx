@@ -158,7 +158,7 @@ export default async function Footer() {
                     <span className='w-[16px] mr-2'>
                       <PhoneIcon />
                     </span>{' '}
-                    785 07 55 69
+                    459 116 567
                   </a>
                 </li>
                 <li>

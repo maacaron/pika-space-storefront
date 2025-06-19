@@ -79,7 +79,7 @@ export default function Zwroty() {
                 <strong>E-mail</strong>: <strong>macaron.labs@gmail.com</strong>,
               </li>
               <li>
-                <strong>Telefon</strong>: <strong>785 075 569</strong>.
+                <strong>Telefon</strong>: <strong>459 116 567</strong>.
               </li>
             </ul>
           </li>
@@ -96,7 +96,7 @@ export default function Zwroty() {
             <strong>E-mail:</strong> macaron.labs@gmail.com
           </li>
           <li>
-            <strong>Telefon:</strong> 785 075 569
+            <strong>Telefon:</strong> 459 116 567
           </li>
         </ul>
         <p>

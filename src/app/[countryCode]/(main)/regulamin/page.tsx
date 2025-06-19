@@ -18,7 +18,7 @@ export default function Regulamin() {
         </p>
         <p>
           Kontakt ze sklepem możliwy jest pod adresem e-mail: macaron.labs@gmail.com lub
-          telefonicznie pod numerem: 785 075 569.
+          telefonicznie pod numerem: 459 116 567.
         </p>
         <p>
           Regulamin określa zasady korzystania ze sklepu internetowego, składania zamówień,

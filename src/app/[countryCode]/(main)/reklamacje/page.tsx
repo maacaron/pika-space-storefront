@@ -75,7 +75,7 @@ export default function Reklamacje() {
                 <strong>E-mail</strong>: <strong>macaron.labs@gmail.com</strong>,
               </li>
               <li>
-                <strong>Telefon</strong>: <strong>785 075 569</strong>.
+                <strong>Telefon</strong>: <strong>459 116 567</strong>.
               </li>
             </ul>
           </li>
