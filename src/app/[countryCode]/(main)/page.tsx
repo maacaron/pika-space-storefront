@@ -1,19 +1,26 @@
-import { Metadata } from "next"
+import { StoreCollection } from '@medusajs/types'
+import { Metadata } from 'next'
 
-import FeaturedProducts from "@modules/home/components/featured-products"
-import Hero from "@modules/home/components/hero"
-import { listCollections } from "@lib/data/collections"
-import { getRegion } from "@lib/data/regions"
+import { getCollectionByHandle, listCollections } from '@lib/data/collections'
+import { getRegion } from '@lib/data/regions'
 
-export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
-  description:
-    "A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
+import { MainProducts } from '@modules/home/components/main-products'
+
+interface CountryCodeParams {
+  countryCode: string
 }
 
-export default async function Home(props: {
-  params: Promise<{ countryCode: string }>
-}) {
+interface HomePageParamsProps {
+  // prettier-ignore
+  params: Promise<CountryCodeParams>
+}
+
+export const metadata: Metadata = {
+  title: 'pika space',
+  description: 'Twoja przestrzeń z produktami Pokémon',
+}
+
+export default async function Home(props: HomePageParamsProps) {
   const params = await props.params
 
   const { countryCode } = params
@@ -21,21 +28,22 @@ export default async function Home(props: {
   const region = await getRegion(countryCode)
 
   const { collections } = await listCollections({
-    fields: "id, handle, title",
+    fields: 'id, handle, title',
   })
+
+  const handle = 'homepage-featured-items'
+
+  const homePageCollection = await getCollectionByHandle(handle).then(
+    (collection: StoreCollection) => collection
+  )
+
+  if (!homePageCollection) {
+    return null
+  }
 
   if (!collections || !region) {
     return null
   }
 
-  return (
-    <>
-      <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
-    </>
-  )
+  return <MainProducts collection={homePageCollection} region={region} />
 }
